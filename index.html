@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社クラッシィ | 不動産投資・資産形成コンサルティング</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold:      '#C9A96E',
+                            goldLight: '#E2C99A',
+                            goldDark:  '#A07840',
+                            navy:      '#09111F',
+                            navyMid:   '#111D30',
+                            charcoal:  '#182236',
+                            light:     '#F7F6F3',
+                            warm:      '#EDE8DF'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['"Cormorant Garamond"', 'serif'],
+                        serif:   ['"Noto Serif JP"', 'serif'],
+                        sans:    ['"Noto Sans JP"', 'sans-serif']
+                    },
+                    letterSpacing: {
+                        'ultra': '0.25em',
+                        'super': '0.35em'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ===== ベース ===== */
+        html { scroll-padding-top: 80px; }
+
+        body {
+            background-color: #F7F6F3;
+            color: #1a1a1a;
+            font-family: 'Noto Sans JP', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== フォント ===== */
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+        .font-serif-jp { font-family: 'Noto Serif JP', serif; }
+
+        /* ===== スクロールアニメーション ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.delay-1 { transition-delay: 0.1s; }
+        .reveal.delay-2 { transition-delay: 0.22s; }
+        .reveal.delay-3 { transition-delay: 0.34s; }
+        .reveal.delay-4 { transition-delay: 0.46s; }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== ヒーロー ===== */
+        .hero-overlay {
+            background: linear-gradient(
+                160deg,
+                rgba(9,17,31,0.75) 0%,
+                rgba(9,17,31,0.88) 55%,
+                rgba(9,17,31,0.97) 100%
+            );
+        }
+
+        /* ===== ゴールドライン ===== */
+        .gold-line {
+            display: block;
+            width: 48px;
+            height: 1px;
+            background: linear-gradient(90deg, #C9A96E, transparent);
+        }
+
+        /* ===== セクションラベル ===== */
+        .section-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: #C9A96E;
+        }
+
+        /* ===== ナビゲーション ===== */
+        .nav-link {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.8);
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #C9A96E;
+            transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .nav-link:hover { color: #C9A96E; }
+        .nav-link:hover::after { width: 100%; }
+
+        /* ===== ボタン ===== */
+        .btn-gold {
+            display: inline-block;
+            background: linear-gradient(135deg, #C9A96E 0%, #A07840 100%);
+            color: #09111F;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            padding: 16px 36px;
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .btn-gold::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.15);
+            transform: translateX(-100%) skewX(-15deg);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .btn-gold:hover::before { transform: translateX(120%) skewX(-15deg); }
+        .btn-gold:hover {
+            box-shadow: 0 8px 32px rgba(201,169,110,0.35);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.85);
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.22em;
+            padding: 15px 36px;
+            transition: border-color 0.3s, color 0.3s, background 0.3s;
+        }
+        .btn-outline:hover {
+            border-color: rgba(201,169,110,0.6);
+            color: #C9A96E;
+            background: rgba(201,169,110,0.05);
+        }
+
+        /* ===== スクロールインジケーター ===== */
+        @keyframes scrollLine {
+            0%   { transform: scaleY(0); transform-origin: top; }
+            50%  { transform: scaleY(1); transform-origin: top; }
+            51%  { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+        .scroll-line::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 100%;
+            background: #C9A96E;
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+
+        /* ===== サービスカード ===== */
+        .service-card {
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.12);
+        }
+        .service-card .card-img {
+            overflow: hidden;
+        }
+        .service-card .card-img img {
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .service-card:hover .card-img img {
+            transform: scale(1.06);
+        }
+        .service-card .card-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: rgba(201,169,110,0.15);
+            line-height: 1;
+            position: absolute;
+            top: 16px;
+            right: 24px;
+        }
+
+        /* ===== 強みカード ===== */
+        .strength-card {
+            background: #182236;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: border-color 0.4s, transform 0.4s;
+        }
+        .strength-card:hover {
+            border-color: rgba(201,169,110,0.35);
+            transform: translateY(-4px);
+        }
+        .strength-icon {
+            width: 56px;
+            height: 56px;
+            border: 1px solid rgba(201,169,110,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #C9A96E;
+            font-size: 1.25rem;
+            transition: background 0.3s;
+        }
+        .strength-card:hover .strength-icon {
+            background: rgba(201,169,110,0.1);
+        }
+
+        /* ===== 会社概要テーブル ===== */
+        .company-row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.07);
+            align-items: start;
+        }
+        .company-row:last-child { border-bottom: none; }
+        .company-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            color: #888;
+            font-weight: 500;
+            padding-top: 2px;
+        }
+        .company-value {
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        /* ===== ロケーションカード ===== */
+        .location-card {
+            background: linear-gradient(145deg, #111D30 0%, #09111F 100%);
+            border: 1px solid rgba(201,169,110,0.15);
+        }
+
+        /* ===== マップドット ===== */
+        .map-dot {
+            background-image: radial-gradient(rgba(201,169,110,0.25) 1px, transparent 1px);
+            background-size: 22px 22px;
+        }
+
+        /* ===== フッター ===== */
+        .footer-divider {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.5), transparent);
+        }
+
+        /* ===== パーティクル装飾 ===== */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(201,169,110,0.12);
+            pointer-events: none;
+        }
+
+        /* ===== 装飾ライン ===== */
+        .deco-line {
+            position: absolute;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.4), transparent);
+        }
+
+        /* ===== ヒーローテキストアニメーション ===== */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-anim-1 { animation: fadeSlideUp 1s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+        .hero-anim-2 { animation: fadeSlideUp 1s cubic-bezier(0.22,1,0.36,1) 0.55s both; }
+        .hero-anim-3 { animation: fadeSlideUp 1s cubic-bezier(0.22,1,0.36,1) 0.8s both; }
+        .hero-anim-4 { animation: fadeSlideUp 1s cubic-bezier(0.22,1,0.36,1) 1.05s both; }
+
+        /* ===== コンセプト画像 ===== */
+        .concept-img-wrap {
+            position: relative;
+        }
+        .concept-img-wrap::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: -16px;
+            right: 16px;
+            bottom: 16px;
+            border: 1px solid rgba(201,169,110,0.25);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .concept-img-wrap::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            right: -16px;
+            bottom: -16px;
+            background: rgba(201,169,110,0.06);
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. ヘッダー / ナビゲーション
+============================================================ -->
+<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500" style="background: rgba(9,17,31,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.04);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+
+        <!-- ロゴ -->
+        <a href="#" class="flex flex-col leading-none group">
+            <span class="font-display text-2xl font-light tracking-[0.2em] text-white group-hover:text-brand-goldLight transition-colors duration-300">CLASSY</span>
+            <span style="font-size:0.6rem; letter-spacing:0.35em; color:#C9A96E; margin-top:-2px; font-family:'Noto Sans JP',sans-serif; font-weight:300;">株式会社クラッシィ</span>
+        </a>
+
+        <!-- デスクトップナビ -->
+        <nav class="hidden md:flex items-center space-x-10">
+            <a href="#concept"   class="nav-link">Concept</a>
+            <a href="#services"  class="nav-link">Services</a>
+            <a href="#strengths" class="nav-link">Strengths</a>
+            <a href="#company"   class="nav-link">Company</a>
+        </nav>
+
+        <!-- モバイルメニューボタン -->
+        <button id="menu-btn" class="md:hidden text-white hover:text-brand-gold transition-colors" aria-label="メニューを開く">
+            <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+        </button>
+    </div>
+
+    <!-- モバイルドロワー -->
+    <div id="mobile-menu" class="hidden md:hidden" style="background: rgba(9,17,31,0.98); border-top: 1px solid rgba(255,255,255,0.06);">
+        <div class="px-6 py-8 space-y-1 text-center">
+            <a href="#concept"   class="block py-4 font-display text-sm tracking-[0.25em] text-white/80 hover:text-brand-gold border-b border-white/5 transition-colors">CONCEPT</a>
+            <a href="#services"  class="block py-4 font-display text-sm tracking-[0.25em] text-white/80 hover:text-brand-gold border-b border-white/5 transition-colors">SERVICES</a>
+            <a href="#strengths" class="block py-4 font-display text-sm tracking-[0.25em] text-white/80 hover:text-brand-gold border-b border-white/5 transition-colors">STRENGTHS</a>
+            <a href="#company"   class="block py-4 font-display text-sm tracking-[0.25em] text-white/80 hover:text-brand-gold transition-colors">COMPANY</a>
+        </div>
+    </div>
+</header>
+
+
+<!-- ============================================================
+     2. ヒーローセクション
+============================================================ -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="background: #09111F;">
+
+    <!-- 背景画像 -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=1920&q=80"
+             alt="洗練された都市と不動産のイメージ"
+             id="hero-bg"
+             class="w-full h-full object-cover"
+             style="opacity:0.28; transform:scale(1.06); transition:transform 12s ease-out;"
+             onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80'">
+        <div class="hero-overlay absolute inset-0"></div>
+    </div>
+
+    <!-- 装飾：縦ライン -->
+    <div class="deco-line" style="left:8%; top:0; bottom:0; height:100%;"></div>
+    <div class="deco-line" style="right:8%; top:0; bottom:0; height:100%;"></div>
+
+    <!-- 装飾：パーティクル -->
+    <div class="particle" style="width:320px;height:320px;top:-80px;right:-80px;filter:blur(80px);"></div>
+    <div class="particle" style="width:200px;height:200px;bottom:10%;left:5%;filter:blur(60px);"></div>
+
+    <!-- コンテンツ -->
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 w-full pt-20">
+        <div class="max-w-4xl space-y-8">
+
+            <!-- ラベル -->
+            <div class="hero-anim-1 inline-flex items-center space-x-3">
+                <span style="width:32px;height:1px;background:#C9A96E;display:inline-block;"></span>
+                <span class="section-label" style="color:#C9A96E;">Real Estate &amp; Consulting</span>
+            </div>
+
+            <!-- メインコピー -->
+            <h1 class="hero-anim-2 font-display font-light text-white leading-[1.15]" style="font-size:clamp(2.6rem, 6vw, 5rem); letter-spacing:0.04em;">
+                未来の価値を、<br>
+                <em class="not-italic" style="color:#C9A96E; font-weight:400;">クラッシィ</em>と共に創る
+            </h1>
+
+            <!-- サブコピー -->
+            <p class="hero-anim-3 font-serif-jp text-white/60 font-light leading-[2] max-w-xl" style="font-size:0.9rem; letter-spacing:0.1em;">
+                私たちは、不動産投資と資産形成コンサルティングを通じて、お客様が本当に望む豊かで上質な（Classy）未来をデザインします。変化し続ける時代に、確固たる安定を。
+            </p>
+
+            <!-- CTA -->
+            <div class="hero-anim-4 flex flex-col sm:flex-row gap-4 pt-4">
+                <a href="#services" class="btn-gold text-center">事業内容を見る</a>
+                <a href="#concept"  class="btn-outline text-center">私たちの想い</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- スクロールインジケーター -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+        <span style="font-size:0.6rem;letter-spacing:0.3em;color:rgba(255,255,255,0.35);font-family:'Cormorant Garamond',serif;">SCROLL</span>
+        <div class="scroll-line" style="width:1px;height:48px;background:rgba(255,255,255,0.1);"></div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     3. コンセプトセクション
+============================================================ -->
+<section id="concept" class="py-28 md:py-40 bg-white relative overflow-hidden">
+
+    <!-- 装飾 -->
+    <div class="particle" style="width:500px;height:500px;top:-200px;right:-200px;filter:blur(100px);background:rgba(201,169,110,0.04);"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+
+            <!-- テキスト -->
+            <div class="lg:col-span-7 space-y-10 reveal">
+
+                <div class="space-y-4">
+                    <span class="section-label">Concept</span>
+                    <h2 class="font-display font-light text-brand-navy leading-snug" style="font-size:clamp(1.8rem,3.5vw,2.8rem); letter-spacing:0.06em;">
+                        「Classy」な生き方を支える、<br>確かな資産設計。
+                    </h2>
+                    <span class="gold-line"></span>
+                </div>
+
+                <div class="space-y-6 font-serif-jp font-light text-slate-600 leading-[2.1]" style="font-size:0.92rem; letter-spacing:0.06em;">
+                    <p>「クラッシィ（Classy）」という名には、一流の、高級な、そして洗練されたという意味が込められています。</p>
+                    <p>不動産は単なる実物資産ではありません。それはお客様の未来の選択肢を広げ、人生そのものをより洗練されたものへと高めるための「器」です。</p>
+                    <p>私たちは、一時的な利益の追求ではなく、10年後・20年後のライフステージを見据え、お客様一人ひとりに最適な不動産投資戦略と、ブレない資産形成ロードマップをご提案いたします。</p>
+                </div>
+            </div>
+
+            <!-- ビジュアル -->
+            <div class="lg:col-span-5 reveal delay-2">
+                <div class="concept-img-wrap">
+                    <div class="relative overflow-hidden" style="border-radius:2px;">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+                             alt="モダンな建築・ビジネスコンセプト"
+                             class="w-full object-cover"
+                             style="height:480px;"
+                             onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'">
+                        <!-- オーバーレイ -->
+                        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,17,31,0.3) 0%,transparent 60%);"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     4. 事業内容セクション
+============================================================ -->
+<section id="services" class="py-28 md:py-40 relative" style="background:#F7F6F3;">
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+        <!-- セクションヘッダー -->
+        <div class="mb-20 reveal">
+            <span class="section-label block mb-4">Services</span>
+            <div class="flex items-end justify-between flex-wrap gap-6">
+                <h2 class="font-display font-light text-brand-navy" style="font-size:clamp(1.8rem,3.5vw,2.8rem); letter-spacing:0.06em;">
+                    私たちの提供するサービス
+                </h2>
+                <p class="font-serif-jp font-light text-slate-500 max-w-sm text-left" style="font-size:0.82rem; letter-spacing:0.08em; line-height:1.9;">
+                    不動産を通じて、持続可能で<br class="hidden sm:inline">価値ある未来を築くための専門的アプローチ。
+                </p>
+            </div>
+            <span class="gold-line mt-6"></span>
+        </div>
+
+        <!-- カードグリッド -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+            <!-- サービス 1 -->
+            <div class="service-card reveal delay-1">
+                <div class="card-img relative" style="height:280px;">
+                    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,17,31,0.7) 0%,transparent 60%);z-index:1;"></div>
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"
+                         alt="不動産投資"
+                         class="w-full h-full object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800&q=80'">
+                    <div style="position:absolute;bottom:24px;left:28px;z-index:2;">
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:0.65rem;letter-spacing:0.3em;color:rgba(201,169,110,0.8);">01</span>
+                        <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:0.15em;color:#fff;font-weight:300;margin-top:4px;">Real Estate Investment</p>
+                    </div>
+                </div>
+                <div class="p-8 md:p-10 space-y-6 relative">
+                    <div class="card-num">01</div>
+                    <h3 class="font-display font-light text-brand-navy" style="font-size:1.5rem; letter-spacing:0.1em;">不動産投資事業</h3>
+                    <p class="font-serif-jp font-light text-slate-600 leading-[2]" style="font-size:0.85rem; letter-spacing:0.06em;">
+                        福岡エリアを中心とした優良物件の目利きから、緻密な収支シミュレーションまでを一貫して提供します。インフレ対策や安定収益源としての不動産投資のメリットを最大限に引き出すため、市場データを科学的に分析し、時代に左右されない強固なポートフォリオを構築します。
+                    </p>
+                    <ul class="space-y-3" style="font-size:0.78rem;">
+                        <li class="flex items-start gap-3 text-slate-500 font-light" style="letter-spacing:0.05em;">
+                            <span style="color:#C9A96E;margin-top:2px;font-size:0.6rem;">&#9670;</span>
+                            資産価値の高い福岡都市圏へのフォーカス
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-500 font-light" style="letter-spacing:0.05em;">
+                            <span style="color:#C9A96E;margin-top:2px;font-size:0.6rem;">&#9670;</span>
+                            新築・中古マンションから一棟ビルまで多様な選択肢
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-500 font-light" style="letter-spacing:0.05em;">
+                            <span style="color:#C9A96E;margin-top:2px;font-size:0.6rem;">&#9670;</span>
+                            購入後の管理・運用まで一貫したサポート体制
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- サービス 2 -->
+            <div class="service-card reveal delay-2">
+                <div class="card-img relative" style="height:280px;">
+                    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(9,17,31,0.7) 0%,transparent 60%);z-index:1;"></div>
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+                         alt="資産形成コンサルティング"
+                         class="w-full h-full object-cover"
+                         onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80'">
+                    <div style="position:absolute;bottom:24px;left:28px;z-index:2;">
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:0.65rem;letter-spacing:0.3em;color:rgba(201,169,110,0.8);">02</span>
+                        <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:0.15em;color:#fff;font-weight:300;margin-top:4px;">Asset Formation Consulting</p>
+                    </div>
+                </div>
+                <div class="p-8 md:p-10 space-y-6 relative">
+                    <div class="card-num">02</div>
+                    <h3 class="font-display font-light text-brand-navy" style="font-size:1.5rem; letter-spacing:0.1em;">資産形成コンサルティング</h3>
+                    <p class="font-serif-jp font-light text-slate-600 leading-[2]" style="font-size:0.85rem; letter-spacing:0.06em;">
+                        個人事業主様、企業オーナー様、そして将来に備えたいすべての個人のお客様のために。単に不動産を売るのではなく、現在持っているアセットの棚卸し、税金対策、相続、将来設計などを含めた多角的な視点から、不動産を基軸とした最適なコンサルティングをオーダーメイドで実施します。
+                    </p>
+                    <ul class="space-y-3" style="font-size:0.78rem;">
+                        <li class="flex items-start gap-3 text-slate-500 font-light" style="letter-spacing:0.05em;">
+                            <span style="color:#C9A96E;margin-top:2px;font-size:0.6rem;">&#9670;</span>
+                            一人ひとりのライフプランに寄り添う完全個別設計
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-500 font-light" style="letter-spacing:0.05em;">
+                            <span style="color:#C9A96E;margin-top:2px;font-size:0.6rem;">&#9670;</span>
+                            税理士や専門家ネットワークと連携した確実なご提案
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-500 font-light" style="letter-spacing:0.05em;">
+                            <span style="color:#C9A96E;margin-top:2px;font-size:0.6rem;">&#9670;</span>
+                            中長期的なロードマップの策定と定期的なモニタリング
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     5. 強みセクション
+============================================================ -->
+<section id="strengths" class="py-28 md:py-40 relative overflow-hidden" style="background:#09111F;">
+
+    <!-- 装飾 -->
+    <div class="particle" style="width:600px;height:600px;bottom:-200px;left:-200px;filter:blur(120px);background:rgba(201,169,110,0.06);"></div>
+    <div class="particle" style="width:300px;height:300px;top:0;right:10%;filter:blur(80px);background:rgba(201,169,110,0.04);"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+
+        <!-- セクションヘッダー -->
+        <div class="text-center space-y-4 mb-20 reveal">
+            <span class="section-label block">Strengths</span>
+            <h2 class="font-display font-light text-white" style="font-size:clamp(1.8rem,3.5vw,2.8rem); letter-spacing:0.06em;">
+                クラッシィの強み
+            </h2>
+            <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,#C9A96E,transparent);margin:0 auto;"></div>
+            <p class="font-serif-jp font-light text-white/40 max-w-md mx-auto" style="font-size:0.82rem; letter-spacing:0.1em; line-height:1.9;">
+                お客様の絶対的な味方であり続けるための私たちの信条。
+            </p>
+        </div>
+
+        <!-- カードグリッド -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+
+            <!-- 強み 1 -->
+            <div class="strength-card p-8 lg:p-10 space-y-6 reveal delay-1">
+                <div class="strength-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-display font-light text-white" style="font-size:1.1rem; letter-spacing:0.1em;">
+                        圧倒的な「分析力」と「目利き」
+                    </h3>
+                    <span style="display:block;width:28px;height:1px;background:rgba(201,169,110,0.5);"></span>
+                </div>
+                <p class="font-serif-jp font-light text-white/50 leading-[2]" style="font-size:0.8rem; letter-spacing:0.06em;">
+                    投資適格地である福岡というエリアにおいて、どのような不動産が本当に資産価値を保ち、収益を生み出し続けるのか、データ裏付けを持った徹底的な分析力で選別します。
+                </p>
+            </div>
+
+            <!-- 強み 2 -->
+            <div class="strength-card p-8 lg:p-10 space-y-6 reveal delay-2">
+                <div class="strength-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-display font-light text-white" style="font-size:1.1rem; letter-spacing:0.1em;">
+                        伴走型「オーダーメイド」設計
+                    </h3>
+                    <span style="display:block;width:28px;height:1px;background:rgba(201,169,110,0.5);"></span>
+                </div>
+                <p class="font-serif-jp font-light text-white/50 leading-[2]" style="font-size:0.8rem; letter-spacing:0.06em;">
+                    画一的な投資商品を押しつけることはいたしません。事業主様それぞれの資金繰りやライフサイクルに柔軟にフィットさせ、常に並走する頼れるアドバイザーであり続けます。
+                </p>
+            </div>
+
+            <!-- 強み 3 -->
+            <div class="strength-card p-8 lg:p-10 space-y-6 reveal delay-3">
+                <div class="strength-icon">
+                    <i class="fa-solid fa-chess-queen"></i>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-display font-light text-white" style="font-size:1.1rem; letter-spacing:0.1em;">
+                        豊かさを守る「Classyスタイル」
+                    </h3>
+                    <span style="display:block;width:28px;height:1px;background:rgba(201,169,110,0.5);"></span>
+                </div>
+                <p class="font-serif-jp font-light text-white/50 leading-[2]" style="font-size:0.8rem; letter-spacing:0.06em;">
+                    単なる「お金を増やす手段」にとどまらず、お客様自身の人生がエレガントで洗練されたものになるよう、将来の不安を取り除き、資産の防衛を最優先とした提案をいたします。
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     6. 会社概要セクション
+============================================================ -->
+<section id="company" class="py-28 md:py-40 bg-white relative overflow-hidden">
+
+    <div class="particle" style="width:400px;height:400px;top:-100px;left:-100px;filter:blur(90px);background:rgba(201,169,110,0.04);"></div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+
+        <!-- セクションヘッダー -->
+        <div class="mb-20 reveal">
+            <span class="section-label block mb-4">Company</span>
+            <h2 class="font-display font-light text-brand-navy" style="font-size:clamp(1.8rem,3.5vw,2.8rem); letter-spacing:0.06em;">
+                会社概要
+            </h2>
+            <span class="gold-line mt-4"></span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+            <!-- 会社情報 -->
+            <div class="lg:col-span-6 reveal">
+                <h3 class="font-display font-light text-brand-navy pb-6 mb-2" style="font-size:1.4rem; letter-spacing:0.12em; border-bottom:1px solid rgba(0,0,0,0.08);">
+                    株式会社クラッシィ
+                </h3>
+
+                <div>
+                    <div class="company-row">
+                        <span class="company-label">代表者</span>
+                        <span class="company-value font-serif-jp">伊藤 祐基（Yuki Ito）</span>
+                    </div>
+                    <div class="company-row">
+                        <span class="company-label">所在地</span>
+                        <span class="company-value font-serif-jp">
+                            〒811-1123<br>
+                            福岡県福岡市早良区内野3丁目2-31-1-A201
+                        </span>
+                    </div>
+                    <div class="company-row">
+                        <span class="company-label">事業内容</span>
+                        <span class="company-value font-serif-jp">
+                            不動産投資<br>
+                            不動産を中心とした資産形成コンサルティング
+                        </span>
+                    </div>
+                    <div class="company-row">
+                        <span class="company-label">設立</span>
+                        <span class="company-value font-serif-jp">2026年</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ロケーションカード -->
+            <div class="lg:col-span-6 reveal delay-2">
+                <div class="location-card p-8 lg:p-10 space-y-8" style="border-radius:2px;">
+
+                    <div class="space-y-3">
+                        <span class="section-label">Location</span>
+                        <h4 class="font-display font-light text-white" style="font-size:1.2rem; letter-spacing:0.1em;">
+                            福岡から発信する、全国基準のコンサルティング
+                        </h4>
+                    </div>
+
+                    <p class="font-serif-jp font-light text-white/50 leading-[2]" style="font-size:0.8rem; letter-spacing:0.06em;">
+                        福岡市早良区は、豊かな自然と都市の利便性が調和したエリアです。私たちはこの成長著しい福岡の地を拠点に、最良の投資トレンドを見定め、多様なクライアントの資産形成を支援しています。
+                    </p>
+
+                    <!-- マップビジュアル -->
+                    <div class="relative overflow-hidden" style="height:180px;border-radius:2px;border:1px solid rgba(255,255,255,0.06);">
+                        <div class="map-dot absolute inset-0"></div>
+                        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(9,17,31,0.6) 0%,rgba(9,17,31,0.2) 100%);"></div>
+
+                        <!-- ピン -->
+                        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10">
+                            <div class="relative">
+                                <span class="absolute inset-0 rounded-full animate-ping" style="background:rgba(201,169,110,0.4);"></span>
+                                <div style="width:12px;height:12px;border-radius:50%;background:#C9A96E;position:relative;z-index:1;"></div>
+                            </div>
+                            <span style="font-family:'Cormorant Garamond',serif;font-size:0.7rem;letter-spacing:0.25em;color:rgba(255,255,255,0.7);">SAWARA-KU, FUKUOKA</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================================================
+     7. フッター
+============================================================ -->
+<footer style="background:#09111F;border-top:1px solid rgba(255,255,255,0.04);">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+
+        <div class="flex flex-col md:flex-row items-center justify-between gap-10">
+
+            <!-- ロゴ -->
+            <div class="flex flex-col items-center md:items-start gap-1">
+                <span class="font-display text-2xl font-light tracking-[0.2em] text-white">CLASSY</span>
+                <span style="font-size:0.6rem;letter-spacing:0.35em;color:#C9A96E;font-family:'Noto Sans JP',sans-serif;font-weight:300;">株式会社クラッシィ</span>
+            </div>
+
+            <!-- 区切り -->
+            <div class="footer-divider hidden md:block"></div>
+
+            <!-- 住所 -->
+            <div class="text-center md:text-left">
+                <p class="font-serif-jp font-light text-white/35" style="font-size:0.75rem;letter-spacing:0.1em;line-height:1.9;">
+                    〒811-1123 福岡県福岡市早良区内野3丁目2-31-1-A201
+                </p>
+            </div>
+
+            <!-- 区切り -->
+            <div class="footer-divider hidden md:block"></div>
+
+            <!-- ナビ -->
+            <nav class="flex items-center gap-8">
+                <a href="#concept"   class="font-display text-white/35 hover:text-brand-gold transition-colors" style="font-size:0.7rem;letter-spacing:0.2em;">Concept</a>
+                <a href="#services"  class="font-display text-white/35 hover:text-brand-gold transition-colors" style="font-size:0.7rem;letter-spacing:0.2em;">Services</a>
+                <a href="#strengths" class="font-display text-white/35 hover:text-brand-gold transition-colors" style="font-size:0.7rem;letter-spacing:0.2em;">Strengths</a>
+                <a href="#company"   class="font-display text-white/35 hover:text-brand-gold transition-colors" style="font-size:0.7rem;letter-spacing:0.2em;">Company</a>
+            </nav>
+
+        </div>
+
+        <div style="border-top:1px solid rgba(255,255,255,0.04);margin-top:40px;padding-top:24px;text-align:center;">
+            <p style="font-size:0.65rem;letter-spacing:0.2em;color:rgba(255,255,255,0.2);font-family:'Cormorant Garamond',serif;">
+                &copy; 2026 Classy Co., Ltd. All Rights Reserved.
+            </p>
+        </div>
+
+    </div>
+</footer>
+
+
+<!-- ============================================================
+     JavaScript
+============================================================ -->
+<script>
+    /* ── ヘッダースクロール ── */
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+            header.style.background = 'rgba(9,17,31,0.97)';
+            header.style.borderBottomColor = 'rgba(201,169,110,0.1)';
+        } else {
+            header.style.background = 'rgba(9,17,31,0.92)';
+            header.style.borderBottomColor = 'rgba(255,255,255,0.04)';
+        }
+    });
+
+    /* ── モバイルメニュー ── */
+    const menuBtn    = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon   = document.getElementById('menu-icon');
+
+    menuBtn.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        menuIcon.className = isHidden
+            ? 'fa-solid fa-bars text-xl'
+            : 'fa-solid fa-xmark text-xl';
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            menuIcon.className = 'fa-solid fa-bars text-xl';
+        });
+    });
+
+    /* ── スクロールアニメーション ── */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ── ヒーロー画像ズームアウト ── */
+    window.addEventListener('load', () => {
+        const heroBg = document.getElementById('hero-bg');
+        if (heroBg) {
+            heroBg.style.transform = 'scale(1)';
+        }
+    });
+</script>
+
+</body>
+</html>
